@@ -4,10 +4,16 @@
       <label>
         <input type="checkbox" v-model="todo.done" />
         <span v-show="!todo.isEdit">{{ todo.title }}</span>
-        <input v-show="todo.isEdit" type="text" :value="todoEditData" />
+        <input
+          v-show="todo.isEdit"
+          type="text"
+          ref="editTodo"
+          :value="todoEditData"
+          @keyup.enter="editDone(todo)"
+        />
       </label>
       <button class="btn btn-danger" @click="handleDelete">删除</button>
-      <button class="btn btn-edit" @click="handleEdit">编辑</button>
+      <button v-show="!todo.isEdit" class="btn btn-edit" @click="handleEdit(todo)">编辑</button>
     </li>
   </div>
 </template>
@@ -22,14 +28,22 @@ export default {
       pubsub.publish("todoDelete", [this.todo.id]);
       // this.$bus.$emit("todoDelete");
     },
-    handleEdit() {
-      console.log("isEdit=",this.todo.isEdit);
-      if (this.todo.isEdit) {
-        this.$set(this.todo, "isEdit", false);
+    handleEdit(todo) {
+      if (Reflect.has(todo, "isEdit")) {
+        todo.isEdit = !todo.isEdit;
       } else {
-        this.$set(this.todo, "isEdit", true);
+        this.$set(todo, "isEdit", true);
       }
+      this.$nextTick(() => {
+        this.$refs.editTodo.focus();
+      });
     },
+    editDone(todo){
+      pubsub.publish('handleEdit',[todo.id,this.$refs.editTodo.value])
+      // console.log("value=",this.$refs.editTodo.value);
+      // todo.title = this.$refs.editTodo.value
+      // todo.isEdit = false
+    }
   },
   data() {
     return {
