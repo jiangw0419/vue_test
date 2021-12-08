@@ -14,7 +14,6 @@
 import MyHeader from "./components/MyHeader.vue";
 import MyList from "./components/MyList.vue";
 import MyFooter from "./components/MyFooter.vue";
-import pubsub from 'pubsub.js'
 
 export default {
   name: "App",
@@ -64,15 +63,10 @@ export default {
     },
   },
    mounted() {
-      // this.$bus.$on("todoDelete",this.todoDelete)
-      pubsub.subscribe('todoDelete',(params)=>{
-        console.log("params=",params);
-        this.todoDelete(params[0])
-      })
+      this.$bus.$on("todoDelete",this.todoDelete)
     },
     beforeDestroy() {
-      // this.$bus.$off(['todoDelete'])
-      pubsub.unsubscribe('todoDelete')
+      this.$bus.$off(['todoDelete'])
     },
 };
 </script>
@@ -100,16 +94,10 @@ body {
   border: 1px solid #bd362f;
 }
 
-.btn-danger:hover {
+/* .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
-}
-.btn-edit{
-  color: #fff;
-  background-color: aquamarine;
-  border: 1px solid beige;
-  margin-right: 5px;
-}
+} */
 
 .btn:focus {
   outline: none;

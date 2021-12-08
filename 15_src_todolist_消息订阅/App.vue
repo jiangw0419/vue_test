@@ -100,16 +100,10 @@ body {
   border: 1px solid #bd362f;
 }
 
-.btn-danger:hover {
+/* .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
-}
-.btn-edit{
-  color: #fff;
-  background-color: aquamarine;
-  border: 1px solid beige;
-  margin-right: 5px;
-}
+} */
 
 .btn:focus {
   outline: none;

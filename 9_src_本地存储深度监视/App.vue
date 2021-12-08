@@ -1,7 +1,7 @@
 <template>
   <div class="todo-container">
     <MyHeader :receive="receive"></MyHeader>
-    <MyList :todos="todos"></MyList>
+    <MyList :todos="todos" :handleDelete="handleDelete"></MyList>
     <MyFooter
       :todos="todos"
       :checkedAll="checkedAll"
@@ -14,7 +14,6 @@
 import MyHeader from "./components/MyHeader.vue";
 import MyList from "./components/MyList.vue";
 import MyFooter from "./components/MyFooter.vue";
-import pubsub from 'pubsub.js'
 
 export default {
   name: "App",
@@ -27,7 +26,7 @@ export default {
     receive(obj) {
       this.todos.unshift(obj);
     },
-    todoDelete(id) {
+    handleDelete(id) {
       if (confirm("确认删除?")) {
         const index = this.todos.findIndex((value) => {
           return value.id === id;
@@ -55,6 +54,10 @@ export default {
     };
   },
   watch: {
+    // todos(value){
+    //   localStorage.setItem("todos",JSON.stringify(value))
+    // }
+
     //深度监视
     todos: {
       deep: true,
@@ -63,17 +66,6 @@ export default {
       },
     },
   },
-   mounted() {
-      // this.$bus.$on("todoDelete",this.todoDelete)
-      pubsub.subscribe('todoDelete',(params)=>{
-        console.log("params=",params);
-        this.todoDelete(params[0])
-      })
-    },
-    beforeDestroy() {
-      // this.$bus.$off(['todoDelete'])
-      pubsub.unsubscribe('todoDelete')
-    },
 };
 </script>
 
@@ -100,16 +92,10 @@ body {
   border: 1px solid #bd362f;
 }
 
-.btn-danger:hover {
+/* .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
-}
-.btn-edit{
-  color: #fff;
-  background-color: aquamarine;
-  border: 1px solid beige;
-  margin-right: 5px;
-}
+} */
 
 .btn:focus {
   outline: none;
