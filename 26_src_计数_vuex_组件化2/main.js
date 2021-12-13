@@ -2,12 +2,12 @@ import Vue  from 'vue'
 
 import App from './App'
 
-import router from './route'
+import Store from './store'
 
 new Vue({
     el:'#app',
+    store:Store,
     render:h=>h(App),
-    router:router,
     beforeCreate() {
         Vue.prototype.$bus = this
     },

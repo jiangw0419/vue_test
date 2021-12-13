@@ -1,7 +1,3 @@
-import Vue from "vue";
-import Vuex from 'vuex'
-
-Vue.use(Vuex)
 
 // vuex组件化
 const counterOption = {
@@ -46,31 +42,4 @@ const counterOption = {
         }
     }
 }
-const personOption = {
-    // 重要
-    namespaced:true,
-    actions: {
-
-    },
-    mutations: {
-        ADD(state, value) {
-            console.log("value=", value);
-            state.userList.unshift(value)
-        }
-    },
-    state: {
-        userList: [
-            { id: '001', name: '张三' }
-        ]
-    },
-    getters: {
-
-    }
-}
-
-export default new Vuex.Store({
-    modules:{
-        counter_option:counterOption,
-        personOption:personOption,
-    }
-})
+export default counterOption
